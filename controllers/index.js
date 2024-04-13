@@ -1,28 +1,13 @@
-import { Worker } from 'worker_threads';
+import ImageService from '../services/image.service.js';
 
-const genImage = async ( workerData ) => {
-    const worker = new Worker('./utils/imageGenerator.js', { workerData });
-    worker.on('message', (msg) => {
-        // Update DB
-        console.log(msg);
-    });
-    worker.on('error', (err) => {
-        // Update DB
-        console.error(err);
-    });
-    worker.on('exit', (code) => {
-        if (code !== 0) {
-            // Update DB
-            console.error(new Error(`Worker stopped with exit code ${code}`));
-        }
-    });
-};
+const imageService = new ImageService();
 
 export default class ImageController {
     async generateImage(req, res) {
         try {
-            const path = req.params.somedata;
-            genImage(path);
+            // Random data
+            const data = Math.random().toString(36).substring(7);
+            imageService.generate(data);
             res.status(200).send('Image generation started ...');
         } catch (error) {
             res.status(500).send(error.message);

@@ -8,6 +8,7 @@ router.get('/', (req, res) => {
     res.send('Hello from Ba3a!');
 });
 
-router.get('/image/:somedata', imageController.generateImage);
+// Should be POST, using GET for testing and simplicity
+router.get('/image', imageController.generateImage);
 
 export default router;
